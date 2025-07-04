@@ -15,8 +15,8 @@ export const useRestaurantData = () => {
       try {
         // Load restaurant data
         const [restaurantResponse, reviewResponse] = await Promise.all([
-          fetch("/restaurant_data.csv"),
-          fetch("/review_data.csv"),
+          fetch("/data/restaurant_data.csv"),
+          fetch("/data/review_data.csv"),
         ]);
 
         if (!restaurantResponse.ok)
