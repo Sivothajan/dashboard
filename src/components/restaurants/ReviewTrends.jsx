@@ -1,23 +1,21 @@
-import React from 'react';
-
 const ReviewTrends = ({ data }) => {
   // Group reviews by month and calculate average sentiment
   const monthlyTrends = data.reduce((acc, review) => {
     if (!review.published_date || !review.Sentiment_score) return acc;
-    
+
     const date = new Date(review.published_date);
-    const monthYear = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
-    
+    const monthYear = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}`;
+
     if (!acc[monthYear]) {
       acc[monthYear] = {
         count: 0,
-        totalSentiment: 0
+        totalSentiment: 0,
       };
     }
-    
+
     acc[monthYear].count++;
     acc[monthYear].totalSentiment += parseFloat(review.Sentiment_score);
-    
+
     return acc;
   }, {});
 
@@ -26,33 +24,36 @@ const ReviewTrends = ({ data }) => {
     .map(([month, data]) => ({
       month,
       averageSentiment: data.totalSentiment / data.count,
-      reviewCount: data.count
+      reviewCount: data.count,
     }))
     .sort((a, b) => a.month.localeCompare(b.month))
     .slice(-6); // Get last 6 months
 
-  const maxCount = Math.max(...trendData.map(d => d.reviewCount));
+  const maxCount = Math.max(...trendData.map((d) => d.reviewCount));
 
   return (
     <div className="review-trends">
       <h2>Review Trends</h2>
-      
+
       <div className="chart">
-        {trendData.map(data => (
+        {trendData.map((data) => (
           <div key={data.month} className="bar-group">
             <div className="bar-container">
-              <div 
+              <div
                 className="bar"
                 style={{
                   height: `${(data.reviewCount / maxCount) * 100}%`,
-                  backgroundColor: data.averageSentiment > 0.6 ? '#27ae60' :
-                                 data.averageSentiment > 0.3 ? '#f39c12' : '#e74c3c'
+                  backgroundColor:
+                    data.averageSentiment > 0.6
+                      ? "#27ae60"
+                      : data.averageSentiment > 0.3
+                        ? "#f39c12"
+                        : "#e74c3c",
                 }}
               />
             </div>
             <div className="label">
-              {data.month.split('-')[1]}
-              /{data.month.split('-')[0].slice(2)}
+              {data.month.split("-")[1]}/{data.month.split("-")[0].slice(2)}
             </div>
             <div className="count">{data.reviewCount}</div>
           </div>
@@ -61,15 +62,24 @@ const ReviewTrends = ({ data }) => {
 
       <div className="legend">
         <div className="legend-item">
-          <div className="color-box" style={{backgroundColor: '#27ae60'}}></div>
+          <div
+            className="color-box"
+            style={{ backgroundColor: "#27ae60" }}
+          ></div>
           <span>Positive</span>
         </div>
         <div className="legend-item">
-          <div className="color-box" style={{backgroundColor: '#f39c12'}}></div>
+          <div
+            className="color-box"
+            style={{ backgroundColor: "#f39c12" }}
+          ></div>
           <span>Neutral</span>
         </div>
         <div className="legend-item">
-          <div className="color-box" style={{backgroundColor: '#e74c3c'}}></div>
+          <div
+            className="color-box"
+            style={{ backgroundColor: "#e74c3c" }}
+          ></div>
           <span>Negative</span>
         </div>
       </div>
@@ -79,7 +89,7 @@ const ReviewTrends = ({ data }) => {
           background: white;
           padding: 20px;
           border-radius: 8px;
-          box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
           flex: 1;
         }
 

@@ -37,42 +37,49 @@ const RestaurantDetails = ({ restaurant, onClose }) => {
   // Format the TripAdvisor URL to a proper web URL
   const getWebsiteUrl = (url) => {
     if (!url) return null;
-    return url.startsWith('http') ? url : `https://www.tripadvisor.com${url}`;
+    return url.startsWith("http") ? url : `https://www.tripadvisor.com${url}`;
   };
 
   // Format cuisines list
   const cuisinesList = restaurant.combined_cuisines
-    ? restaurant.combined_cuisines.split(',').map(c => c.trim()).filter(c => c)
+    ? restaurant.combined_cuisines
+        .split(",")
+        .map((c) => c.trim())
+        .filter((c) => c)
     : [];
 
   // Format rating display
-  const formattedRating = restaurant.rating 
+  const formattedRating = restaurant.rating
     ? parseFloat(restaurant.rating).toFixed(1)
-    : 'N/A';
+    : "N/A";
 
   // Format review count
   const formattedReviewCount = restaurant.reviewCount
     ? new Intl.NumberFormat().format(parseInt(restaurant.reviewCount))
-    : '0';
+    : "0";
 
   // Get sentiment emoji
   const getSentimentEmoji = (score) => {
-    if (!score || isNaN(parseFloat(score))) return '😐';
+    if (!score || isNaN(parseFloat(score))) return "😐";
     const sentimentScore = parseFloat(score);
     return sentimentScore > 0.6 ? "😊" : sentimentScore > 0.3 ? "😐" : "😕";
   };
 
   return (
     <div className="restaurant-details">
-      <button className="close-button" onClick={onClose} aria-label="Close details">×</button>
-      <h2>{restaurant.name || 'Unknown Restaurant'}</h2>
-      
+      <button
+        className="close-button"
+        onClick={onClose}
+        aria-label="Close details"
+      >
+        ×
+      </button>
+      <h2>{restaurant.name || "Unknown Restaurant"}</h2>
+
       <div className="details-grid">
         <div className="detail-item">
           <span className="label">Rating</span>
-          <span className="value rating">
-            ★ {formattedRating}
-          </span>
+          <span className="value rating">★ {formattedRating}</span>
         </div>
 
         <div className="detail-item">
@@ -85,9 +92,9 @@ const RestaurantDetails = ({ restaurant, onClose }) => {
           <span className="value sentiment">
             {getSentimentEmoji(restaurant.Sentiment_score)}
             <span className="sentiment-score">
-              {restaurant.Sentiment_score 
+              {restaurant.Sentiment_score
                 ? `(${parseFloat(restaurant.Sentiment_score).toFixed(2)})`
-                : '(N/A)'}
+                : "(N/A)"}
             </span>
           </span>
         </div>
@@ -95,7 +102,9 @@ const RestaurantDetails = ({ restaurant, onClose }) => {
         <div className="detail-item full-width">
           <span className="label">Address</span>
           <span className="value">
-            {restaurant.fullAddress || restaurant.address || 'Address not available'}
+            {restaurant.fullAddress ||
+              restaurant.address ||
+              "Address not available"}
           </span>
         </div>
 
@@ -103,7 +112,10 @@ const RestaurantDetails = ({ restaurant, onClose }) => {
           <div className="detail-item full-width">
             <span className="label">Phone</span>
             <span className="value">
-              <a href={`tel:${restaurant.telephone || restaurant.phone}`} className="link">
+              <a
+                href={`tel:${restaurant.telephone || restaurant.phone}`}
+                className="link"
+              >
                 {restaurant.telephone || restaurant.phone}
               </a>
             </span>
@@ -113,9 +125,9 @@ const RestaurantDetails = ({ restaurant, onClose }) => {
         {restaurant.url && (
           <div className="detail-item full-width">
             <span className="label">Website</span>
-            <a 
+            <a
               href={getWebsiteUrl(restaurant.url)}
-              target="_blank" 
+              target="_blank"
               rel="noopener noreferrer"
               className="value link"
             >
@@ -140,9 +152,7 @@ const RestaurantDetails = ({ restaurant, onClose }) => {
         {restaurant.priceLevel && (
           <div className="detail-item">
             <span className="label">Price Level</span>
-            <span className="value price-level">
-              {restaurant.priceLevel}
-            </span>
+            <span className="value price-level">{restaurant.priceLevel}</span>
           </div>
         )}
       </div>

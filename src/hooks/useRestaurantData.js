@@ -1,11 +1,11 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
 export const useRestaurantData = () => {
   const [data, setData] = useState({
     restaurantData: [],
     reviewData: [],
     isLoading: true,
-    error: null
+    error: null,
   });
 
   useEffect(() => {
@@ -15,27 +15,29 @@ export const useRestaurantData = () => {
       try {
         // Load restaurant data
         const [restaurantResponse, reviewResponse] = await Promise.all([
-          fetch('/restaurant_data.csv'),
-          fetch('/review_data.csv')
+          fetch("/restaurant_data.csv"),
+          fetch("/review_data.csv"),
         ]);
 
-        if (!restaurantResponse.ok) throw new Error('Failed to load restaurant data');
-        if (!reviewResponse.ok) throw new Error('Failed to load review data');
+        if (!restaurantResponse.ok)
+          throw new Error("Failed to load restaurant data");
+        if (!reviewResponse.ok) throw new Error("Failed to load review data");
 
         const [restaurantText, reviewText] = await Promise.all([
           restaurantResponse.text(),
-          reviewResponse.text()
+          reviewResponse.text(),
         ]);
 
         const parseCSV = (text) => {
-          const rows = text.split('\n');
-          const headers = rows[0].split(',');
-          return rows.slice(1)
-            .filter(row => row.trim())
-            .map(row => {
-              const values = row.split(',');
+          const rows = text.split("\n");
+          const headers = rows[0].split(",");
+          return rows
+            .slice(1)
+            .filter((row) => row.trim())
+            .map((row) => {
+              const values = row.split(",");
               return headers.reduce((obj, header, index) => {
-                obj[header.trim()] = values[index]?.trim() || '';
+                obj[header.trim()] = values[index]?.trim() || "";
                 return obj;
               }, {});
             });
@@ -49,15 +51,15 @@ export const useRestaurantData = () => {
             restaurantData: restaurantArray,
             reviewData: reviewArray,
             isLoading: false,
-            error: null
+            error: null,
           });
         }
       } catch (err) {
         if (mounted) {
-          setData(prev => ({
+          setData((prev) => ({
             ...prev,
             isLoading: false,
-            error: err.message
+            error: err.message,
           }));
         }
       }

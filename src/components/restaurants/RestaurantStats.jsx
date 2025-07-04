@@ -1,26 +1,29 @@
-import React from 'react';
+import React from "react";
 
 const RestaurantStats = ({ data }) => {
-  const [cuisineStats, setCuisineStats] = React.useState({ totalCuisines: 0, topCuisines: [] });
+  const [cuisineStats, setCuisineStats] = React.useState({
+    totalCuisines: 0,
+    topCuisines: [],
+  });
   const totalRestaurants = data.length;
 
   React.useEffect(() => {
     const fetchCuisineData = async () => {
       try {
-        const response = await fetch('/cuisine_counts.csv');
+        const response = await fetch("/cuisine_counts.csv");
         const text = await response.text();
-        const lines = text.split('\n').filter(line => line.trim());
-        const cuisines = lines.slice(1).map(line => {
-          const [cuisine, count] = line.split(',');
+        const lines = text.split("\n").filter((line) => line.trim());
+        const cuisines = lines.slice(1).map((line) => {
+          const [cuisine, count] = line.split(",");
           return [cuisine, parseInt(count)];
         });
-        
+
         setCuisineStats({
           totalCuisines: cuisines.length,
-          topCuisines: cuisines.slice(0, 5)
+          topCuisines: cuisines.slice(0, 5),
         });
       } catch (error) {
-        console.error('Error loading cuisine data:', error);
+        console.error("Error loading cuisine data:", error);
       }
     };
 
@@ -35,12 +38,12 @@ const RestaurantStats = ({ data }) => {
         <h3>Total Restaurants</h3>
         <p className="stat-value">{totalRestaurants}</p>
       </div>
-      
+
       <div className="stat-card">
         <h3>Unique Cuisines</h3>
         <p className="stat-value">{cuisineStats.totalCuisines}</p>
       </div>
-      
+
       <div className="stat-card wide">
         <h3>Top Cuisines</h3>
         <ul className="cuisine-list">
@@ -71,7 +74,7 @@ const RestaurantStats = ({ data }) => {
         }
 
         .stat-card::before {
-          content: '';
+          content: "";
           position: absolute;
           top: 0;
           left: 0;

@@ -1,27 +1,113 @@
-.nav {
-  display: flex;
-  gap: 1rem;
-  padding: 1rem;
-  background-color: var(--card-background);
-  border-radius: var(--border-radius);
-  box-shadow: 0 2px 4px var(--shadow-color);
-  margin-bottom: 1rem;
-}
-
-.navButton {
-  padding: 0.5rem 1rem;
-  background-color: var(--accent-color);
+.navigator {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background: #2c3e50;
   color: white;
-  border: none;
-  border-radius: 4px;
+  padding: 0 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  z-index: 1000;
+}
+
+.logo {
+  margin-right: 40px;
   cursor: pointer;
-  transition: background-color 0.2s;
+  padding: 8px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
 }
 
-.navButton:hover {
-  background-color: var(--secondary-color);
+.logo:hover {
+  background: rgba(255, 255, 255, 0.1);
 }
 
-.active {
-  background-color: var(--primary-color);
+.logo:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.3);
+}
+
+.logo h2 {
+  color: #ecf0f1;
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.navList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.navItem {
+  display: flex;
+  align-items: center;
+  padding: 8px 16px;
+  border: none;
+  background: none;
+  color: #bdc3c7;
+  font-size: 1rem;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.navItem:hover {
+  background: #34495e;
+  color: white;
+}
+
+.navItem.active {
+  background: #3498db;
+  color: white;
+}
+
+.icon {
+  margin-right: 8px;
+  font-size: 1.2rem;
+}
+
+.loadingDot {
+  display: inline-block;
+  margin-left: 8px;
+  animation: pulse 1s infinite;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.3;
+  }
+}
+
+.navItem:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+  .navigator {
+    padding: 0 10px;
+  }
+
+  .logo h2 {
+    font-size: 1.2rem;
+  }
+
+  .navItem {
+    padding: 6px 12px;
+    font-size: 0.9rem;
+  }
 }
